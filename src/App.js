@@ -1,7 +1,73 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import { Container } from "react-bootstrap";
 
-export const App = () => {
+import Header from "./components/header/Header";
+import Sidebar from "./components/sidebar/Sidebar";
+import HomeScreen from "./screens/homeScreen/HomeScreen";
+import LoginScreen from "./screens/loginScreen/LoginScreen";
+
+import {
+  Navigate,
+  Route,
+  BrowserRouter as Router,
+  useNavigate,
+} from "react-router-dom";
+
+import "./_app.scss";
+import { useSelector } from "react-redux";
+
+const Layout = ({ children }) => {
+  const [sidebar, toggleSidebar] = useState(false);
+
+  const handleToggleSidebar = () => toggleSidebar((value) => !value);
+
   return (
-    <div> Youtube Clone</div>
-  )
-}
+    <>
+      <Header handleToggleSidebar={handleToggleSidebar} />
+      <div className="app__container">
+        <Sidebar sidebar={sidebar} handleToggleSidebar={handleToggleSidebar} />
+        <Container fluid className="app__main ">
+          {children}
+        </Container>
+      </div>
+    </>
+  );
+};
+
+const App = () => {
+  const { accessToken, loading } = useSelector((state) => state.auth);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!loading && !accessToken) {
+      navigate("/auth");
+    }
+  }, [accessToken, loading, navigate]);
+
+  return (
+    <Router>
+      <Route path="/" exact>
+        <Layout>
+          <HomeScreen />
+        </Layout>
+      </Route>
+
+      <Route path="/auth">
+        <LoginScreen />
+      </Route>
+
+      <Route path="/search">
+        <Layout>
+          <h1>Search Results</h1>
+        </Layout>
+      </Route>
+
+      <Route>
+        <Navigate to="/" />
+      </Route>
+    </Router>
+  );
+};
+
+export default App;
