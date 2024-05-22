@@ -15,7 +15,6 @@ export const login = () => async (dispatch) => {
     });
 
     const res = await signInWithPopup(auth, provider);
-    console.log("res", res);
     const accessToken = res.user.accessToken;
 
     const profile = {

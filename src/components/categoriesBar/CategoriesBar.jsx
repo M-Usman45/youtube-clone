@@ -1,42 +1,20 @@
 import React, { useState } from "react";
 import "./_categoriesBar.scss";
 
-const keywords = [
-  "All",
-  "React js",
-  "Angular js",
-  "React Native",
-  "use of API",
-  "Redux",
-  "Music",
-  "Algorithm Art ",
-  "Guitar",
-  "Bengali Songs",
-  "Coding",
-  "Cricket",
-  "Football",
-  "Real Madrid",
-  "Gatsby",
-  "Poor Coder",
-  "Shwetabh",
-];
-
-const CategoriesBar = () => {
-  const [activeElement, setActiveElement] = useState("All");
-
-  const handleClick = (value) => {
-    setActiveElement(value);
-  };
-
+const CategoriesBar = ({
+  categories,
+  selectedCategory,
+  setSelectedCategory,
+}) => {
   return (
     <div className="categoriesBar">
-      {keywords.map((value, i) => (
+      {categories.map(({ id, snippet: { title, channelId } }) => (
         <span
-          onClick={() => handleClick(value)}
-          key={i}
-          className={activeElement === value ? "active" : ""}
+          onClick={() => setSelectedCategory(id)}
+          key={id}
+          className={selectedCategory === id ? "active" : ""}
         >
-          {value}
+          {title}
         </span>
       ))}
     </div>
