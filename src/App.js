@@ -6,12 +6,7 @@ import Sidebar from "./components/sidebar/Sidebar";
 import HomeScreen from "./screens/homeScreen/HomeScreen";
 import LoginScreen from "./screens/loginScreen/LoginScreen";
 
-import {
-  Navigate,
-  Route,
-  BrowserRouter as Router,
-  useNavigate,
-} from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 
 import "./_app.scss";
 import { useSelector } from "react-redux";
@@ -46,27 +41,29 @@ const App = () => {
   }, [accessToken, loading, navigate]);
 
   return (
-    <Router>
-      <Route path="/" exact>
-        <Layout>
-          <HomeScreen />
-        </Layout>
-      </Route>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <Layout>
+            <HomeScreen />
+          </Layout>
+        }
+      />
 
-      <Route path="/auth">
-        <LoginScreen />
-      </Route>
+      <Route path="/auth" element={<LoginScreen />} />
 
-      <Route path="/search">
-        <Layout>
-          <h1>Search Results</h1>
-        </Layout>
-      </Route>
+      <Route
+        path="/search"
+        element={
+          <Layout>
+            <h1>Search Results</h1>
+          </Layout>
+        }
+      />
 
-      <Route>
-        <Navigate to="/" />
-      </Route>
-    </Router>
+      <Route element={<Navigate to="/" />} />
+    </Routes>
   );
 };
 

@@ -1,6 +1,5 @@
-import firebase from "firebase/app";
-
-import auth from "../../firebase";
+import { signInWithPopup } from "firebase/auth";
+import { auth, provider } from "../../firebase";
 import {
   LOAD_PROFILE,
   LOGIN_FAIL,
@@ -15,14 +14,14 @@ export const login = () => async (dispatch) => {
       type: LOGIN_REQUEST,
     });
 
-    const provider = new firebase.auth.GoogleAuthProvider();
-
-    const res = await auth.signInWithPopup(provider);
-    const accessToken = res.credential.accessToken;
+    const res = await signInWithPopup(auth, provider);
+    console.log("res", res);
+    const accessToken = res.user.accessToken;
 
     const profile = {
-      name: res.additionalUserInfo.profile.name,
-      photoURL: res.additionalUserInfo.profile.picture,
+      name: res.user.displayName,
+      email: res.user.email,
+      photoURL: res.user.photoURL,
     };
 
     sessionStorage.setItem("ytc-access-token", accessToken);
