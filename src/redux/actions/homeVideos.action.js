@@ -6,7 +6,7 @@ import {
 } from "../actionType";
 
 export const getPopulaVideos =
-  (pageToken, videoCategoryId) => async (disaptch) => {
+  (videoCategoryId) => async (disaptch, getState) => {
     try {
       disaptch({
         type: HOME_VIDEOS_REQUEST,
@@ -19,8 +19,8 @@ export const getPopulaVideos =
             chart: "mostPopular",
             regionCode: "PK",
             maxResults: 20,
-            pageToken,
-            videoCategoryId,
+            pageToken: getState().homeVideos.nextPageToken,
+            ...(videoCategoryId ? { videoCategoryId } : null),
           },
         })
         .then(({ data }) => {
@@ -30,6 +30,7 @@ export const getPopulaVideos =
               payload: {
                 videos: data?.items,
                 nextPageToken: data?.nextPageToken,
+                selectedCategory: videoCategoryId,
               },
             });
           }
@@ -52,11 +53,10 @@ export const searchVideosBykeyword = (keyword) => async (disaptch) => {
     request
       .get("/search", {
         params: {
-          part: "snippet,contentDetails,statistics",
+          part: "snippet",
           chart: "mostPopular",
           regionCode: "PK",
           maxResults: 20,
-          pageToken,
           q: keyword,
           type: "video",
         },
