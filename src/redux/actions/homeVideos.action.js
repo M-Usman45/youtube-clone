@@ -20,7 +20,7 @@ export const getPopulaVideos =
             regionCode: "PK",
             maxResults: 20,
             pageToken: getState().homeVideos.nextPageToken,
-            ...(videoCategoryId ? { videoCategoryId } : null),
+            videoCategoryId: videoCategoryId ? videoCategoryId : 0,
           },
         })
         .then(({ data }) => {
@@ -34,6 +34,13 @@ export const getPopulaVideos =
               },
             });
           }
+        })
+        .catch((e) => {
+          console.log(e.messgae);
+          disaptch({
+            type: HOME_VIDEOS_FAILED,
+            payload: e.messgae,
+          });
         });
     } catch (e) {
       console.log(e.messgae);
