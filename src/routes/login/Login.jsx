@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { login } from "../../redux/actions/auth.action";
 
-import "./loginScreen.scss";
+import "./login.scss";
 
 const LoginScreen = () => {
   const dispatch = useDispatch();

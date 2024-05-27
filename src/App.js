@@ -3,13 +3,14 @@ import { Container } from "react-bootstrap";
 
 import Header from "./components/header/Header";
 import Sidebar from "./components/sidebar/Sidebar";
-import HomeScreen from "./screens/homeScreen/HomeScreen";
-import LoginScreen from "./screens/loginScreen/LoginScreen";
+import HomeScreen from "./routes/home/Home";
+import LoginScreen from "./routes/login/Login";
 
 import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 
 import "./_app.scss";
 import { useSelector } from "react-redux";
+import { Watch } from "./routes/watch/Watch";
 
 const Layout = ({ children }) => {
   const [sidebar, toggleSidebar] = useState(false);
@@ -58,6 +59,15 @@ const App = () => {
         element={
           <Layout>
             <h1>Search Results</h1>
+          </Layout>
+        }
+      />
+
+      <Route
+        path="/watch"
+        element={
+          <Layout>
+            <Watch />
           </Layout>
         }
       />
